@@ -1,34 +1,6 @@
+version: '3.8'
+
 services:
-  mysql-dev:
-    image: sdpx/db
-    container_name: db-dev
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data_dev:/var/lib/mysql
-    networks:
-      - dev
-
-  flask-app-dev:
-    image: sdpx/api 
-    container_name: api-dev
-    restart: always
-    depends_on:
-      - mysql-dev
-    ports:
-      - "8081:5000"
-    environment:
-      DB_HOST: db-dev
-      DB_PORT: 3306
-    env_file:
-      - ./backend/.env
-    networks:
-      - dev
-
   mysql-test:
     image: sdpx/db
     container_name: db-test
@@ -60,11 +32,8 @@ services:
       - test
 
 volumes:
-  mysql_data_dev:
   mysql_data_test:
 
 networks:
-  dev:
-    driver: bridge
   test:
     driver: bridge
